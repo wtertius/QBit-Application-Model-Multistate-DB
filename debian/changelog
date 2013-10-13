@@ -1,3 +1,9 @@
+libqbit-application-model-multistate-db-perl (0.002) raring; urgency=low
+
+  * Fixed bug with lock
+
+ -- Sergei Svistunov <sergei-svistunov@yandex.ru>  Sun, 13 Oct 2013 18:26:39 +0400
+
 libqbit-application-model-multistate-db-perl (0.001) raring; urgency=low
 
   * Initial commit
