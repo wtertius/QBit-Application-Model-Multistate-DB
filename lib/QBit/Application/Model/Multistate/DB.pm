@@ -61,7 +61,7 @@ sub do_action {
                     @{$self->_multistate_db_table->primary_key}, 'multistate',
                     (ref($object) eq 'HASH' ? keys(%$object) : ())
                 ],
-                for_update => 1
+                for_update => TRUE
             );
             throw Exception::Multistate::BadAction gettext('Cannot do action "%s".', $action)
               unless $self->check_action($object, $action);
@@ -85,6 +85,7 @@ sub do_action {
             ) if $self->_action_log_db_table();
         }
     );
+
     return $new_multistate;
 }
 
@@ -138,7 +139,7 @@ sub _get_object_fields {
     my ($self, $object, $fields, %opts) = @_;
 
     if (ref($object) eq 'HASH') {
-        return $object if @{arrays_intersection([keys %{$object}], $fields)} == @$fields;
+        return $object if !$opts{'for_update'} && @{arrays_intersection([keys(%$object)], $fields)} == @$fields;
 
         throw gettext(
             'Cannot find PK fields. Need (%s), got (%s).',
