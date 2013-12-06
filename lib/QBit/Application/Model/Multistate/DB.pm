@@ -2,7 +2,7 @@ package Exception::Multistate::BadAction;
 use base qw(Exception::Multistate);
 
 package Exception::Multistate::NotFound;
-use base qw(Exception);
+use base qw(Exception::Multistate);
 
 package QBit::Application::Model::Multistate::DB;
 
