@@ -47,11 +47,10 @@ sub get_actions {
 sub do_action {
     my ($self, $object, $action, %opts) = @_;
 
-    my $primary_key = $self->_multistate_db_table->primary_key;
     my $pk =
-        ref($object) eq 'HASH' ? {map {$_ => $object->{$_}} @{$primary_key}}
-      : ref($object) eq 'ARRAY' ? {map {$primary_key->[$_] => $object->[$_]} 0 .. (@$primary_key - 1)}
-      :                           $object;
+      ref($object) eq 'HASH'
+      ? {map {$_ => $object->{$_}} @{$self->_multistate_db_table->primary_key}}
+      : $object;
 
     my $new_multistate;
 
