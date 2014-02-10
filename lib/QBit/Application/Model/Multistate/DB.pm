@@ -23,6 +23,7 @@ sub check_action {
 
     throw Exception::Multistate::NotFound unless defined($object);
 
+    return FALSE unless exists($object->{'multistate'});
     return FALSE unless $self->check_multistate_action($object->{'multistate'}, $action);
 
     my $can_action_sub_name = "can_action_$action";
@@ -46,10 +47,11 @@ sub get_actions {
 sub do_action {
     my ($self, $object, $action, %opts) = @_;
 
+    my $primary_key = $self->_multistate_db_table->primary_key;
     my $pk =
-      ref($object) eq 'HASH'
-      ? {map {$_ => $object->{$_}} @{$self->_multistate_db_table->primary_key}}
-      : $object;
+        ref($object) eq 'HASH' ? {map {$_ => $object->{$_}} @{$primary_key}}
+      : ref($object) eq 'ARRAY' ? {map {$primary_key->[$_] => $object->[$_]} 0 .. (@$primary_key - 1)}
+      :                           $object;
 
     my $new_multistate;
 
@@ -150,11 +152,17 @@ sub _get_object_fields {
 
     push(@$fields, @{$self->_multistate_db_table->primary_key});
 
-    return $self->_multistate_db_table->get(
+    return $self->_get(
         $object,
         for_update => $opts{'for_update'},
         fields     => array_uniq(@$fields)
     );
+}
+
+sub _get {
+    my ($self, $object, %opts) = @_;
+
+    return $self->_multistate_db_table->get($object, %opts);
 }
 
 sub _action_log_db_table { }
