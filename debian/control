@@ -1,12 +1,14 @@
-Source: libqbit-application-model-multistate-db-perl
+Source: libtertiusqbit-application-model-multistate-db-perl
 Section: perl
 Priority: extra
-Maintainer: Sergei Svistunov <sergei-svistunov@yandex.ru>
-Build-Depends: debhelper (>= 8.0.0), perl, libqbit-perl, libqbit-application-model-multistate-perl
+Maintainer: Dmitry Lukiyanchuk <wtertius@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), perl, libtertiusqbit-perl, libtertiusqbit-application-model-multistate-perl
 Standards-Version: 3.9.4
 
-Package: libqbit-application-model-multistate-db-perl
+Package: libtertiusqbit-application-model-multistate-db-perl
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, perl, libqbit-perl, libqbit-application-model-multistate-perl
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, perl, libtertiusqbit-perl, libtertiusqbit-application-model-multistate-perl
+Conflicts: libqbit-application-model-multistate-db-perl
+Replaces: libqbit-application-model-multistate-db-perl
 Description: Class for working with multistates DB entries.
  Class for working with multistates DB entries. It extend QBit::Application::Model::Multistate.

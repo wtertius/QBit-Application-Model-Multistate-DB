@@ -1,12 +1,12 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: libqbit-application-model-multistate-db-perl
+Upstream-Name: libtertiusqbit-application-model-multistate-db-perl
 
 Files: *
-Copyright: 2013 Sergei Svistunov <sergei-svistunov@yandex.ru>
+Copyright: 2015 Dmitry Lukiyanchuk <wtertius@gmail.com>
 License: GPL-2.0+
 
 Files: debian/*
-Copyright: 2013 Sergei Svistunov <sergei-svistunov@yandex.ru>
+Copyright: 2015 Dmitry Lukiyanchuk <wtertius@gmail.com>
 License: GPL-2.0+
 
 License: GPL-2.0+
