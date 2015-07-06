@@ -73,21 +73,27 @@ sub do_action {
             my $on_action_name = "on_action_$action";
             $self->$on_action_name($object, %opts) if $self->can($on_action_name);
 
-            $self->_action_log_db_table()->add(
-                {
-                    user_id => $self->get_option('cur_user', {})->{'id'},
-                    (map {("elem_$_" => $object->{$_})} @{$self->_multistate_db_table->primary_key}),
-                    old_multistate => $object->{'multistate'},
-                    action         => $action,
-                    new_multistate => $new_multistate,
-                    dt             => curdate(oformat => 'db_time'),
-                    ($self->_action_log_db_table()->have_fields('opts') ? (opts => to_json(\%opts)) : ())
-                }
-            ) if $self->_action_log_db_table();
+            $self->_action_log_db_table()->add($self->_action_log_record($object, $action, $new_multistate, \%opts))
+              if $self->_action_log_db_table();
         }
     );
 
     return $new_multistate;
+}
+
+sub _action_log_record {
+    my ($self, $object, $action, $new_multistate, $opts) = @_;
+
+    my $action_log_db_table = $self->_action_log_db_table();
+    return {
+        user_id => $self->get_option('cur_user', {})->{'id'},
+        (map {("elem_$_" => $object->{$_})} @{$self->_multistate_db_table->primary_key}),
+        old_multistate => $object->{'multistate'},
+        action         => $action,
+        new_multistate => $new_multistate,
+        dt             => curdate(oformat => 'db_time'),
+        ($action_log_db_table->have_fields('opts') ? (opts => to_json($opts)) : ())
+    };
 }
 
 sub get_action_log_entries {
