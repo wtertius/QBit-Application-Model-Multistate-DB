@@ -84,6 +84,12 @@ sub do_action {
 sub _action_log_record {
     my ($self, $object, $action, $new_multistate, $opts) = @_;
 
+    $opts = clone($opts);
+    foreach my $value (values(%$opts)) {
+        $value->{content} = '...'
+          if ref($value) eq 'HASH' && exists($value->{filename}) && exists($value->{content}) && $value->{content};
+    }
+
     my $action_log_db_table = $self->_action_log_db_table();
     return {
         user_id => $self->get_option('cur_user', {})->{'id'},
